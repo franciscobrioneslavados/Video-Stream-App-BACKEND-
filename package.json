@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "video-stream-app-backend",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Francisco Briones Lavados",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
