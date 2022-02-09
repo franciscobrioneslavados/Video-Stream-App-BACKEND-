@@ -15,7 +15,9 @@ export const secret = 'secret';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/Stream'),
+    MongooseModule.forRoot('mongodb://usermongo:secret@127.0.0.1:27017/test', {
+      useNewUrlParser: true,
+    }),
     MulterModule.register({
       storage: diskStorage({
         destination: './public',

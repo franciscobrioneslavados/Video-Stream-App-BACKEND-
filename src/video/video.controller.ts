@@ -28,7 +28,7 @@ export class VideoController {
       { name: 'cover', maxCount: 1 },
     ]),
   )
-  async createBook(
+  async createVideo(
     @Res() response,
     @Req() request,
     @Body() video: Video,

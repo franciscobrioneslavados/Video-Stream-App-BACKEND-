@@ -10,7 +10,7 @@ export class Video {
   @Prop()
   video: string;
   @Prop()
-  coverImage: string;
+  coverImage?: string;
   @Prop({ default: Date.now() })
   uploadDate: Date;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
