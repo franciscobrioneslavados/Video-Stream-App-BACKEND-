@@ -56,6 +56,7 @@ const configService = new ConfigService();
   providers: [],
 })
 export class AppModule {
+  static port: number | string;
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(isAuthenticated)
@@ -64,6 +65,7 @@ export class AppModule {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }
   constructor(private readonly configService: ConfigService) {
+    AppModule.port = this.configService.get(Configuration.PORT);
     const logger = new Logger(AppModule.name);
     logger.log(
       `REST: ${this.configService.get(
