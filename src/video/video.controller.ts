@@ -14,7 +14,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { Video } from 'src/models/video.schema';
+import { Video } from '../models/video.schema';
 import { VideoService } from './video.service';
 
 @Controller('video')

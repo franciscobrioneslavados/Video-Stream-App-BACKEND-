@@ -10,12 +10,21 @@ import { VideoModule } from './video/video.module';
 import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from './app.middleware';
 import { VideoController } from './video/video.controller';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { configVar } from './shared/config-var';
+import { SharedModule } from './shared/shared.module';
+import { LoggerMiddleware } from './shared/logger/logger.middleware';
+import { Configuration } from './shared/env.enum';
 
 export const secret = 'secret';
+const configService = new ConfigService();
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://usermongo:secret@127.0.0.1:27017/test', {
+    ConfigModule.forRoot({
+      load: [configVar],
+    }),
+    MongooseModule.forRoot(configService.get(Configuration.MONGO_URL), {
       useNewUrlParser: true,
     }),
     MulterModule.register({
@@ -36,6 +45,7 @@ export const secret = 'secret';
     }),
     UserModule,
     VideoModule,
+    SharedModule,
   ],
   controllers: [],
   providers: [],
@@ -46,5 +56,6 @@ export class AppModule {
       .apply(isAuthenticated)
       .exclude({ path: 'video/:id', method: RequestMethod.GET })
       .forRoutes(VideoController);
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
