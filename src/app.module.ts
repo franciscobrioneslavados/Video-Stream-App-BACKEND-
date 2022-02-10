@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import {
+  Logger,
+  MiddlewareConsumer,
+  Module,
+  RequestMethod,
+} from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
@@ -11,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from './app.middleware';
 import { VideoController } from './video/video.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { configVar } from './shared/config-var';
 import { SharedModule } from './shared/shared.module';
 import { LoggerMiddleware } from './shared/logger/logger.middleware';
 import { Configuration } from './shared/env.enum';
@@ -20,7 +26,9 @@ const configService = new ConfigService();
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [configVar],
+    }),
     MongooseModule.forRoot(configService.get(Configuration.MONGO_URL), {
       useNewUrlParser: true,
     }),
@@ -54,5 +62,14 @@ export class AppModule {
       .exclude({ path: 'video/:id', method: RequestMethod.GET })
       .forRoutes(VideoController);
     consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+  constructor(private readonly configService: ConfigService) {
+    const logger = new Logger(AppModule.name);
+    logger.log(
+      `REST: ${this.configService.get(
+        Configuration.NODE_NAME,
+      )}, LIST ON PORT: ${this.configService.get(Configuration.PORT)}`,
+    );
+    logger.verbose(`Config VAR: ${JSON.stringify(configVar())}`);
   }
 }
