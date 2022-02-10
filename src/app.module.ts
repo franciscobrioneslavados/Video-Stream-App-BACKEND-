@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from './app.middleware';
 import { VideoController } from './video/video.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { configVar } from './shared/config-var';
 import { SharedModule } from './shared/shared.module';
 import { LoggerMiddleware } from './shared/logger/logger.middleware';
 import { Configuration } from './shared/env.enum';
@@ -21,9 +20,7 @@ const configService = new ConfigService();
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [configVar],
-    }),
+    ConfigModule.forRoot(),
     MongooseModule.forRoot(configService.get(Configuration.MONGO_URL), {
       useNewUrlParser: true,
     }),
