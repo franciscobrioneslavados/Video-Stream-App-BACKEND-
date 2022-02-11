@@ -16,3 +16,5 @@ jobs:
           heroku_app_name: "video-stream-app-backend"
           heroku_email: "franciscobrioneslavados@gmail.com"
           usedocker: true
+        env:
+          PORT: 80
