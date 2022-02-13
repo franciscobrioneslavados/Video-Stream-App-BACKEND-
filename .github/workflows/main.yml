@@ -13,7 +13,7 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "video-stream-app-backend"
+          heroku_app_name: "app-video-stream-backend"
           heroku_email: "franciscobrioneslavados@gmail.com"
           usedocker: true
         env:
