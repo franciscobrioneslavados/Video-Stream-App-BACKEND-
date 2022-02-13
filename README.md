@@ -40,3 +40,7 @@ heroku container:release web -a video-stream-app-backend
 ```
 heroku logs --tail -a video-stream-app-backend
 ```
+
+docker build -t video-stream-app-backend .
+
+docker run -n video-stream-app-backend -p 5000:5000  video-stream-app-backend:latest

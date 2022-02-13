@@ -29,7 +29,7 @@ const configService = new ConfigService();
     ConfigModule.forRoot({
       load: [configVar],
     }),
-    MongooseModule.forRoot(configService.get(Configuration.MONGO_URL), {
+    MongooseModule.forRoot('mongodb+srv://root:<password>@cluster0.hfglx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
       useNewUrlParser: true,
     }),
     MulterModule.register({
