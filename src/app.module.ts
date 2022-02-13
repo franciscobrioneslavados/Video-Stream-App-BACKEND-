@@ -29,7 +29,7 @@ const configService = new ConfigService();
     ConfigModule.forRoot({
       load: [configVar],
     }),
-    MongooseModule.forRoot('mongodb+srv://root:<password>@cluster0.hfglx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+    MongooseModule.forRoot('mongodb+srv://root:7pGZSbSwjJ0P5mma@cluster0.hfglx.mongodb.net/video-stram-db?retryWrites=true&w=majority', {
       useNewUrlParser: true,
     }),
     MulterModule.register({
