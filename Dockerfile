@@ -6,6 +6,9 @@ WORKDIR /app
 
 COPY . /app
 
+RUN npm install node-gyp
+RUN npm install bcrypt
+RUN npm install bcrypt
 RUN yarn install && npm run build && npm prune --production
 
 # ---
