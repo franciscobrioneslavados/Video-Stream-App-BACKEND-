@@ -6,11 +6,10 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm install node-gyp
-RUN npm install bcrypt
-RUN npm install bcrypt
-RUN yarn install && npm run build && npm prune --production
-
+RUN npm cache clean --force
+RUN npm install
+RUN npm run build
+RUN npm prune --production
 # ---
 
 # Second Stage : Setup command to run your app
