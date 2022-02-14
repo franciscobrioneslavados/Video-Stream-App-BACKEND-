@@ -9,6 +9,7 @@ import { Video, VideoDocument } from '../models/video.schema';
 import { createReadStream, statSync } from 'fs';
 import { join } from 'path';
 import { Request, Response } from 'express';
+import { exec } from "child_process";
 
 @Injectable()
 export class VideoService {
@@ -35,6 +36,13 @@ export class VideoService {
     }
     return this.videoModel.find().populate('createdBy').exec();
   }
+
+  findAll(): Promise<Video[]> {
+    return this.videoModel
+      .find()
+      .exec();
+  }
+
   async streamVideo(id: string, response: Response, request: Request) {
     try {
       const data = await this.videoModel.findOne({ _id: id });

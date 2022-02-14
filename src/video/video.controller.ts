@@ -53,10 +53,16 @@ export class VideoController {
     });
   }
 
+  // @Get()
+  // async read(@Query() id): Promise<any> {
+  //   return await this.videoService.readVideo(id);
+  // }
+
   @Get()
-  async read(@Query() id): Promise<any> {
-    return await this.videoService.readVideo(id);
+  findAll() {
+    return this.videoService.findAll();
   }
+
 
   @Get("/:id")
   async stream(@Param("id") id, @Res() response, @Req() request) {
