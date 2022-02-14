@@ -11,59 +11,69 @@ import {
   Req,
   Res,
   UploadedFiles,
-  UseInterceptors,
-} from '@nestjs/common';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { Video } from '../models/video.schema';
-import { VideoService } from './video.service';
+  UseInterceptors
+} from "@nestjs/common";
+import { FileFieldsInterceptor } from "@nestjs/platform-express";
+import { Video } from "../models/video.schema";
+import { VideoService } from "./video.service";
 
-@Controller('video')
+@Controller("video")
 export class VideoController {
-  constructor(private readonly videoService: VideoService) {}
+  constructor(private readonly videoService: VideoService) {
+  }
 
   @Post()
   @UseInterceptors(
     FileFieldsInterceptor([
-      { name: 'video', maxCount: 1 },
-      { name: 'cover', maxCount: 1 },
-    ]),
+      { name: "video", maxCount: 1 },
+      { name: "cover", maxCount: 1 }
+    ])
   )
   async createVideo(
     @Res() response,
-    @Req() request,
-    @Body() video: Video,
-    @UploadedFiles()
-    files: { video?: Express.Multer.File[]; cover?: Express.Multer.File[] },
+    @Req() request
+    // @Body() video: Video,
+    // @UploadedFiles()
+    // files: { video?: Express.Multer.File[]; cover?: Express.Multer.File[] },
   ) {
     const requestBody = {
       createdBy: request.user,
-      title: video.title,
-      video: files.video[0].filename,
-      coverImage: files.cover[0].filename,
+      title: request.body.title,
+      video: request.body.video,
+      coverImage: request.body.coverImage
     };
-    const newVideo = await this.videoService.createVideo(requestBody);
+    console.log(requestBody.title);
+    console.log(requestBody.video);
+    console.log(requestBody.coverImage);
+    // const newVideo = await this.videoService.createVideo(requestBody);
+    const newPostVideo = await this.videoService.createPostVideo(requestBody);
     return response.status(HttpStatus.CREATED).json({
-      newVideo,
+      msg: "post ok!",
+      newPostVideo
     });
   }
+
   @Get()
   async read(@Query() id): Promise<any> {
     return await this.videoService.readVideo(id);
   }
-  @Get('/:id')
-  async stream(@Param('id') id, @Res() response, @Req() request) {
+
+  @Get("/:id")
+  async stream(@Param("id") id, @Res() response, @Req() request) {
     return this.videoService.streamVideo(id, response, request);
   }
-  @Put('/:id')
-  async update(@Res() response, @Param('id') id, @Body() video: Video) {
+
+  @Put("/:id")
+  async update(@Res() response, @Param("id") id, @Body() video: Video) {
     const updatedVideo = await this.videoService.update(id, video);
     return response.status(HttpStatus.OK).json(updatedVideo);
   }
-  @Delete('/:id')
-  async delete(@Res() response, @Param('id') id) {
+
+  @Delete("/:id")
+  async delete(@Res() response, @Param("id") id) {
     await this.videoService.delete(id);
     return response.status(HttpStatus.OK).json({
-      user: null,
+      user: null
     });
   }
 }

@@ -21,6 +21,11 @@ export class VideoService {
     return newVideo.save();
   }
 
+  async createPostVideo(video: any): Promise<Video> {
+    const newVideo = new this.videoModel(video);
+    return newVideo.save();
+  }
+
   async readVideo(id): Promise<any> {
     if (id.id) {
       return this.videoModel
