@@ -36,7 +36,7 @@ const configService = new ConfigService();
         Configuration.MONGO_PASSWORD,
       )}@cluster0.hfglx.mongodb.net/${configService.get(
         Configuration.MONGO_COLLECTION,
-      )}?retryWrites=true&w=majority&ssl=false`,
+      )}?retryWrites=true&w=majority&ssl=true`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

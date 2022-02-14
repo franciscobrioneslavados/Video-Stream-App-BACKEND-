@@ -22,7 +22,8 @@ WORKDIR /app
 COPY --from=builder /app/package*.json /app/
 COPY --from=builder /app/node_modules/ /app/node_modules/
 COPY --from=builder /app/dist/ /app/dist/
+COPY --from=builder /app/docker/entrypoint.sh .
 
 EXPOSE 5000
 
-CMD ["node", "dist/main.js"]
+CMD ["/bin/sh","entrypoint.sh"]

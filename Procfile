@@ -1,1 +1,1 @@
-web: node dist/main -p $PORT
+web: npm run start:prod -p $PORT
