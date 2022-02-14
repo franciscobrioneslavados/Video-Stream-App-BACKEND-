@@ -23,6 +23,12 @@ COPY --from=builder /app/package*.json /app/
 COPY --from=builder /app/node_modules/ /app/node_modules/
 COPY --from=builder /app/dist/ /app/dist/
 
+ENV NODE_ENV=production
+ENV NODE_NAME=video-stream-app-backend
+ENV MONGO_PASSWORD=7pGZSbSwjJ0P5mma
+ENV MONGO_COLLECTION=video-stram-db
+
+
 EXPOSE 5000
 
 CMD ["node", "dist/main.js"]
