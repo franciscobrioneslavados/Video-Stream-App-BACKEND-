@@ -43,4 +43,6 @@ heroku logs --tail -a video-stream-app-backend
 
 docker build -t video-stream-app-backend .
 
-docker run -n video-stream-app-backend -p 5000:5000  video-stream-app-backend:latest
+docker run --name video-stream-app-backend -p 5000:5000  video-stream-app-backend:latest
+
+mongosh "mongodb+srv://cluster0.hfglx.mongodb.net/video-stram-db" --username root
