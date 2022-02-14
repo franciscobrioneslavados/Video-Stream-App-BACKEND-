@@ -20,18 +20,28 @@ import { configVar } from './shared/config-var';
 import { SharedModule } from './shared/shared.module';
 import { LoggerMiddleware } from './shared/logger/logger.middleware';
 import { Configuration } from './shared/env.enum';
+import { config } from 'process';
 
-export const secret = 'secret';
+const secret = 'secret';
 const configService = new ConfigService();
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: `environment/${process.env.NODE_ENV}.env`,
       load: [configVar],
     }),
-    MongooseModule.forRoot('mongodb+srv://root:7pGZSbSwjJ0P5mma@cluster0.hfglx.mongodb.net/video-stram-db?retryWrites=true&w=majority', {
-      useNewUrlParser: true,
-    }),
+    MongooseModule.forRoot(
+      `mongodb+srv://root:${configService.get(
+        Configuration.MONGO_PASSWORD,
+      )}@cluster0.hfglx.mongodb.net/${configService.get(
+        Configuration.MONGO_COLLECTION,
+      )}?retryWrites=true&w=majority&ssl=false`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+    ),
     MulterModule.register({
       storage: diskStorage({
         destination: './public',
