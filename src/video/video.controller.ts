@@ -42,9 +42,9 @@ export class VideoController {
       video: request.body.video,
       coverImage: request.body.coverImage
     };
-    console.log(requestBody.title);
-    console.log(requestBody.video);
-    console.log(requestBody.coverImage);
+    // console.log(requestBody.title);
+    // console.log(requestBody.video);
+    // console.log(requestBody.coverImage);
     // const newVideo = await this.videoService.createVideo(requestBody);
     const newPostVideo = await this.videoService.createPostVideo(requestBody);
     return response.status(HttpStatus.CREATED).json({
@@ -63,11 +63,17 @@ export class VideoController {
     return this.videoService.findAll();
   }
 
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.videoService.findOne(id);
 
-  @Get("/:id")
-  async stream(@Param("id") id, @Res() response, @Req() request) {
-    return this.videoService.streamVideo(id, response, request);
   }
+
+
+  // @Get("/:id")
+  // async stream(@Param("id") id, @Res() response, @Req() request) {
+  //   return this.videoService.streamVideo(id, response, request);
+  // }
 
   @Put("/:id")
   async update(@Res() response, @Param("id") id, @Body() video: Video) {

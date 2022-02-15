@@ -43,6 +43,12 @@ export class VideoService {
       .exec();
   }
 
+  findOne(id: string): Promise<Video> {
+    return this.videoModel
+      .findOne({ _id:id })
+      .exec();
+  }
+
   async streamVideo(id: string, response: Response, request: Request) {
     try {
       const data = await this.videoModel.findOne({ _id: id });
